@@ -1,0 +1,96 @@
+
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: 40PX;
+}
+
+.myForm{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 300px;
+}
+.myForm input{
+    font-size: 20px;
+    color: black;
+    border: 2px solid black;
+    padding: 10px;
+}
+.myForm select{
+    font-size: 25px;
+    color: blue;
+    padding: 10px;
+}
+.myForm div{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 2rem;
+}
+.myForm button{
+    font-size: 2rem;
+    color: #fff;
+    background-color: blue;
+    padding: 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition:  0.5s ease;
+}
+.myForm button:hover{
+    opacity: 0.5;
+}
+
+.searchBar{
+    display: flex;
+    gap: 10px;
+    /* margin: 20px 2px; */
+}
+.searchBar input{
+    font-size: 20px;
+    padding: 10px;
+    color: black;
+    border: 1px solid black;
+}
+
+.exportControls{
+  display: flex; 
+  gap: 10PX;
+  /* margin: 20PX 2PX; */
+  /* flex-direction: column;  */
+}
+.exportControls button{
+    background-color: green;
+}
+
+.myTable th{
+    font-size: 20px;
+    text-align: center;
+}
+.myTable td{
+    font-size: 20px;
+    color: black;
+    text-align: center;
+}
+.myTable button, .searchBar button, .exportControls button{
+    font-size: 2rem;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;   
+    transition: 0.5s ease;
+}
+.myTable .editButton, .myTable .deleteButton{
+    font-size: 20px;
+}
+.deleteButton{
+    background-color: red;
+}
+.editButton{
+    background-color: blueviolet;
+    padding: 10px 20px;
+}
+.deleteButton:hover, .editButton:hover, .exportControls button:hover{
+    opacity: 0.5;
+}

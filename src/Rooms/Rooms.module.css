@@ -1,0 +1,87 @@
+ 
+ .myContainer{
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+ }
+.myForm{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 300px;
+    color: bla;
+}
+.myForm input, .myForm select, .searchTab input{
+    font-size: 25px;
+    border: 1px solid black;
+    padding: 10px;
+}
+.myForm select{
+    color: blue;
+}
+.myForm div{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 25px;
+}
+.myForm button, .searchTab button, .myTable button, .myExport button{
+    font-size: 2rem;
+    color: #fff;
+    background-color: blueviolet;
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+.myForm button:hover, .searchTab button:hover{
+    opacity: 0.5;
+}
+
+.searchTab{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+/* .searchTab .searchButton, .myExport .searchButton{
+    background-color: green;
+    font-weight: bold;
+} */
+.searchTab .resetButton, .myExport .resetButton{
+    background-color: red;
+}
+.myExport{
+    display: flex;
+    gap: 20px;
+}
+.myTable th{
+    font-size: 25px;
+    color: black;
+    width: 20px;
+}
+.myTable tbody{
+    background-color: #fff;
+}
+.myTable td{
+    font-size: 20px;
+    color: black;
+    text-align: center;
+    padding: 10px;
+}
+.myTable .deleteButton{
+    background-color: red;
+    font-size: 20px;
+    padding: 10px;
+    /* margin: 0 5px; */
+}
+.myTable .editButton{
+    padding: 10px;
+    font-size: 20px;
+    /* margin: 0 5px; */
+}
+
+.myTable .deleteButton:hover, .myTable .editButton:hover, .myExport button:hover{
+    opacity: 0.5;
+}

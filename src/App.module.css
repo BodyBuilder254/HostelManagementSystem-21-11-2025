@@ -1,0 +1,16 @@
+.myDiv{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 2rem;
+    background-color: blue;
+    padding: 20px;
+} 
+.myDiv a{
+    color: #fff;
+    text-decoration: none;
+    transition: 0.5s ease;
+}
+.myDiv a:hover{
+    text-decoration: underline;
+}
