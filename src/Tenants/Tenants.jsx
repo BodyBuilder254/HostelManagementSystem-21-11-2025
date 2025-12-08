@@ -5,6 +5,9 @@ import styles from "./Tenants.module.css";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
+// import { database } from "../Config/firebase";
+// import {collection, addDoc} from "firebase/firestore";
+
 function Tenants(){
 
     const [idNumber, setIDNumber] = useState("");
@@ -219,6 +222,10 @@ function Tenants(){
             });
             pdf.save("tenants_data.pdf");
         }
+    }
+
+    async function updateFirestore(){
+
     }
 
     return(
