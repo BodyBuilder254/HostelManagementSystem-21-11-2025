@@ -5,10 +5,12 @@ import styles from "./Tenants.module.css";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-// import { database } from "../Config/firebase";
-// import {collection, addDoc} from "firebase/firestore";
+import { database } from "../Config/Firebase.js";
+import {collection, getDocs, doc, addDoc, updateDoc, deleteDoc} from "firebase/firestore";
 
 function Tenants(){
+
+    const tenantsCollection = collection(database, "Tenants");
 
     const [idNumber, setIDNumber] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -23,16 +25,31 @@ function Tenants(){
     const [searchResult, setSearchResult] = useState(null);
 
 
-    const [myTenants, setMyTenants] = useState(JSON.parse(localStorage.getItem("20251110MYTenants")) || []);
+    const [myTenants, setMyTenants] = useState([]);
     const [myRooms, setMyRooms] = useState(JSON.parse(localStorage.getItem("20251112MyRooms")) || []);
-    useEffect(()=>{
-        localStorage.setItem("20251110MYTenants", JSON.stringify(myTenants));
-        console.log(myTenants);
-    }, [myTenants]);
+    
+    // useEffect(()=>{
+    //     localStorage.setItem("20251110MYTenants", JSON.stringify(myTenants));
+    //     
+    //     fetchTenants();
+    // }, [myTenants]);
 
     useEffect(()=>{
         document.title = "Tenants";
+        console.log(myTenants);
+        fetchTenants();
     }, []);
+
+    async function fetchTenants(){
+        try{
+            const querySnapshot = getDocs(tenantsCollection);
+            const tenantsData = (await querySnapshot).docs.map(doc => ({id: doc.id, ...doc.data()}));
+            setMyTenants(tenantsData);
+        }catch(error){
+            console.error(error);
+            window.alert("Failed to load tenants data");
+        }
+    }
 
     function handleIDNumber(event){
         setIDNumber(event.target.value);
@@ -65,7 +82,7 @@ function Tenants(){
         setGender("");
     }
 
-    function handleAddCustomer(event){
+    async function handleAddCustomer(event){
         event.preventDefault();
         if(idNumber.length !== 8){
             window.alert("Enter valid ID number");
@@ -82,29 +99,46 @@ function Tenants(){
                 EntryDate: entryDate, RoomNumber: roomNumber, Gender: gender, Status: "Away",
             }
 
-            if(editIndex !== null){
-                const updatedTenants = [...myTenants];
-                updatedTenants[editIndex] = newCustomer;
-                setMyTenants(updatedTenants);
-                setEditIndex(null);
-                window.alert("Tenant details updated successfully!");
-                resetFormFields();
-            }
+            try{
+                if(editIndex !== null){
+                    const updatedTenants = [...myTenants];
+                    updatedTenants[editIndex] = newCustomer;
 
-            else{
+                    // Update in Firestore
+                    const tenantId = myTenants[editIndex].id;
+                    const tenantDoc = doc(database, "Tenants", tenantId);
+                    await updateDoc(tenantDoc, {IDNumber: idNumber, PhoneNumber: phoneNumber, FirstName: firstName, 
+                        LastName: lastName, EntryDate: entryDate, RoomNumber: roomNumber, Gender: gender
+                    });
 
-                const isDuplicate = myTenants.some((tenant) => 
-                    tenant.IDNumber === idNumber || tenant.PhoneNumber === phoneNumber
-                );
-
-                if(isDuplicate){
-                window.alert("A tenant with this ID or phone number already exists!");
-                }
-                else{
-                    setMyTenants(t => [...t, newCustomer]);
-                    window.alert("Tenant added successfully!")
+                    await fetchTenants();
+                    setEditIndex(null);
+                    window.alert("Tenant details updated successfully!");
                     resetFormFields();
                 }
+
+                else{
+
+                    const isDuplicate = myTenants.some((tenant) => 
+                        tenant.IDNumber === idNumber || tenant.PhoneNumber === phoneNumber
+                    );
+
+                    if(isDuplicate){
+                    window.alert("A tenant with this ID or phone number already exists!");
+                    }
+                    else{
+                        // Add Document to Firestore
+                        const docRef = await addDoc(tenantsCollection, newCustomer);
+                        setMyTenants(t => [...t, {id: docRef.id ,...newCustomer}]);
+                        fetchTenants();
+
+                        window.alert("Tenant added successfully!")
+                        resetFormFields();
+                    }
+                }
+            }catch(error){
+                console.error(error);
+                window.alert("Failed to save tenant data");
             }
             
 
@@ -127,13 +161,20 @@ function Tenants(){
 
     }
 
-    function deleteCustomer(index){
+    async function deleteCustomer(tenantId){
         const confirmDelete = window.confirm("Are you sure you want to delete this tenant?");
 
         if(confirmDelete){
-            const updatedCustomers = myTenants.filter((tenant, i) => index !== i);
-            setMyTenants(updatedCustomers);
-            window.alert("Tenant deleted successfully");
+            try{
+                const tenantDoc = doc(database, "Tenants", tenantId);
+                await deleteDoc(tenantDoc);
+
+                // setMyTenants(updatedCustomers);
+                window.alert("Tenant deleted successfully");
+                await fetchTenants();
+            }catch(error){
+                console.error(error);
+            }
         }
         else{
             window.alert("Deletion Cancelled");
@@ -224,10 +265,6 @@ function Tenants(){
         }
     }
 
-    async function updateFirestore(){
-
-    }
-
     return(
         <div className={styles.container} >
             <h1>New Tenants Registration</h1>
@@ -302,7 +339,7 @@ function Tenants(){
                             return <td key={index} >{room.MonthlyCharges} </td>
                         }})}                   
                         <td><button onClick={()=> handleEditTenant(tenantIndex)} className={styles.editButton} >Edit</button> </td>
-                        <td><button onClick={()=>deleteCustomer(tenantIndex)} className={styles.deleteButton} >Delete</button></td>
+                        <td><button onClick={()=>deleteCustomer(tenant.id)} className={styles.deleteButton} >Delete</button></td>
                     </tr>)}
                     )}
                 </tbody>
