@@ -5,17 +5,22 @@ import React, {useState, useEffect} from "react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
+import {database} from "../Config/Firebase.js";
+import {collection, doc, getDocs, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
+
 function Rooms(){
 
-    const [myRooms, setMyRooms] = useState(JSON.parse(localStorage.getItem("20251112MyRooms")) || []);
-    const [myTenants, setMyTenants] = useState(JSON.parse(localStorage.getItem("20251110MYTenants")) || []);
+    //BE CAREFUL const [myRooms, setMyRooms] = useState(JSON.parse(localStorage.getItem("20251112MyRooms")) || []);
+    //BE CAREFUL const [myTenants, setMyTenants] = useState(JSON.parse(localStorage.getItem("20251110MYTenants")) || []);
+    const [myRooms, setMyRooms] = useState([]);
+    const [myTenants, setMyTenants] = useState([]);
 
     useEffect(()=>{
-        localStorage.setItem("20251112MyRooms", JSON.stringify(myRooms));
-        console.log(myRooms);
-        // console.log(myRooms);
-        // console.log(myTenants);
-    }, [myRooms]);
+        // localStorage.setItem("20251112MyRooms", JSON.stringify(myRooms)) BE CAREFUL;
+        document.title = "Rooms";
+        fetchRooms();
+        fetchTenants();
+    }, []);
 
     const [roomNumber, setRoomNumber] = useState("");
     const [floorNumber, setFloorNumber] = useState("");
@@ -27,6 +32,8 @@ function Rooms(){
     const [searchResult, setSearchResult] = useState(null); 
     const [editIndex, setEditIndex] = useState(null);
     
+    const roomsCollection = collection(database, "Rooms");
+    const tenantsCollection = collection(database, "Tenants");
 
     function handleRoomNumber(event){
         setRoomNumber(event.target.value);
@@ -45,6 +52,29 @@ function Rooms(){
     }
     function handleSearchTerm(event){
         setSearchTerm(event.target.value);
+    }
+
+    async function fetchRooms(){
+        try{
+            const querySnapshot = getDocs(roomsCollection);
+            const roomsData = (await querySnapshot).docs.map((doc) => ({id: doc.id, ...doc.data()}));
+            setMyRooms(roomsData);
+
+        }catch(error){
+            console.error(error);
+            window.alert("Failed to load Rooms data");
+        }
+    }
+
+    async function fetchTenants(){
+        try{
+            const querySnapshot = getDocs(tenantsCollection);
+            const tenantsData = (await querySnapshot).docs.map(doc => ({id: doc.id, ...doc.data()}));
+            setMyTenants(tenantsData);
+        }catch(error){
+            console.error(error);
+            window.alert("Failed to Load Tenants Data !");
+        }
     }
 
     function handleSearch(){
@@ -76,44 +106,61 @@ function Rooms(){
         setEditIndex(index);
     }
 
-    function handleDelete(index){
+    async function handleDelete(roomId){
         const confirmDelete = window.confirm("Confirm you want to delete this room");
         if(!confirmDelete){
             window.alert("Deletion cancelled");
         }
         else if(confirmDelete){
-            const updatedRooms = myRooms.filter((room , i) => index !== i);
-            setMyRooms(updatedRooms);
-            window.alert("Deleted successfully");
+            try{
+                const roomDoc = doc(database, "Rooms", roomId);
+                await deleteDoc(roomDoc);
+                await fetchRooms();
+                window.alert("Deleted successfully");
+            }catch(error){
+                console.error(error);
+                window.alert("Deletion operion has failed ! try again later");
+            }
         }
     }
 
-    function handleAddRoom(event){
+    async function handleAddRoom(event){
         event.preventDefault();
 
         const myRoom = {RoomNumber: roomNumber, FloorNumber: floorNumber, SharingType: sharingType,
             Gender: gender, MonthlyCharges: monthlyCharges, 
         }
 
-        if(editIndex !== null){
-            const updatedRooms = [...myRooms];
-            updatedRooms[editIndex] = myRoom;
-            setMyRooms(updatedRooms);
-            window.alert("Room Edited Successfully");
-            setEditIndex(null);
-            resetFormFields();
-        }
+        try{
+            if(editIndex !== null){
 
-        else if(editIndex === null){
-            const isDuplicate = myRooms.some((room) => room.RoomNumber === roomNumber);
-            if(isDuplicate){
-                window.alert("The room already exists !");
-            }
-            else if(!isDuplicate){
-                setMyRooms([...myRooms, myRoom]);
-                window.alert("Room added successfully !");
+
+                const roomId = myRooms[editIndex].id;
+                const roomDoc = doc(database, "Rooms", roomId);
+                await updateDoc(roomDoc, myRoom);
+
+                await fetchRooms();
+                window.alert("Room Edited Successfully");
+                setEditIndex(null);
                 resetFormFields();
             }
+
+            else if(editIndex === null){
+                const isDuplicate = myRooms.some((room) => room.RoomNumber === roomNumber);
+                if(isDuplicate){
+                    window.alert("The room already exists !");
+                }
+                else if(!isDuplicate){
+                   await addDoc(roomsCollection, myRoom);
+                   await fetchRooms();
+
+                    window.alert("Room added successfully !");
+                    resetFormFields();
+                }
+            }
+        }catch(error){
+            console.error(error);
+            signInWithEmailAndPassword.alert("failed to save Room data !");
         }
 
         
@@ -291,7 +338,7 @@ function Rooms(){
                         const roomIndex = myRooms.findIndex((r)=> r.RoomNumber === room.RoomNumber );
                         const roomCapacity = room.SharingType;
                         const occupied = myTenants.filter((tenant)=> tenant.RoomNumber === room.RoomNumber && tenant.Status === "Active").length;
-                        const remaining = roomCapacity - occupied;
+                        const remaining = Number(roomCapacity) - Number(occupied);
                     return(<tr key={index} >
                         <td>{room.RoomNumber} </td>
                         <td>{room.FloorNumber} </td>
@@ -300,7 +347,7 @@ function Rooms(){
                         <td>{room.MonthlyCharges} </td>
                         <td>{remaining > 0 ? `${remaining} Slots` : "Full" }</td>
                         <td><button className={styles.editButton} onClick={() => handleEdit(roomIndex)} >Edit</button></td>
-                        <td><button className={styles.deleteButton} onClick={()=> handleDelete(roomIndex)} >Delete</button></td>
+                        <td><button className={styles.deleteButton} onClick={()=> handleDelete(room.id)} >Delete</button></td>
                     </tr>)})}
                 </tbody>
             </table>

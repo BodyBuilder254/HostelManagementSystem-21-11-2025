@@ -11,6 +11,7 @@ import {collection, getDocs, doc, addDoc, updateDoc, deleteDoc} from "firebase/f
 function Tenants(){
 
     const tenantsCollection = collection(database, "Tenants");
+    const roomsCollection = collection(database, "Rooms");
 
     const [idNumber, setIDNumber] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -24,20 +25,15 @@ function Tenants(){
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResult, setSearchResult] = useState(null);
 
-
+    // BE CAREFUL const [myRooms, setMyRooms] = useState(JSON.parse(localStorage.getItem("20251112MyRooms")) || []);
     const [myTenants, setMyTenants] = useState([]);
-    const [myRooms, setMyRooms] = useState(JSON.parse(localStorage.getItem("20251112MyRooms")) || []);
-    
-    // useEffect(()=>{
-    //     localStorage.setItem("20251110MYTenants", JSON.stringify(myTenants));
-    //     
-    //     fetchTenants();
-    // }, [myTenants]);
+    const [myRooms, setMyRooms] = useState([]);
 
     useEffect(()=>{
         document.title = "Tenants";
         console.log(myTenants);
         fetchTenants();
+        fetchRooms();
     }, []);
 
     async function fetchTenants(){
@@ -48,6 +44,17 @@ function Tenants(){
         }catch(error){
             console.error(error);
             window.alert("Failed to load tenants data");
+        }
+    }
+
+    async function fetchRooms(){
+        try{
+            const querySnapshot = getDocs(roomsCollection);
+            const roomsData = (await querySnapshot).docs.map(doc => ({id: doc.id, ...doc.data()}));
+            setMyRooms(roomsData);
+        }catch(error){
+            console.error(error);
+            window.alert("Failed to load Rooms data");
         }
     }
 
@@ -101,15 +108,10 @@ function Tenants(){
 
             try{
                 if(editIndex !== null){
-                    const updatedTenants = [...myTenants];
-                    updatedTenants[editIndex] = newCustomer;
-
                     // Update in Firestore
                     const tenantId = myTenants[editIndex].id;
                     const tenantDoc = doc(database, "Tenants", tenantId);
-                    await updateDoc(tenantDoc, {IDNumber: idNumber, PhoneNumber: phoneNumber, FirstName: firstName, 
-                        LastName: lastName, EntryDate: entryDate, RoomNumber: roomNumber, Gender: gender
-                    });
+                    await updateDoc(tenantDoc, newCustomer);
 
                     await fetchTenants();
                     setEditIndex(null);
@@ -128,9 +130,8 @@ function Tenants(){
                     }
                     else{
                         // Add Document to Firestore
-                        const docRef = await addDoc(tenantsCollection, newCustomer);
-                        setMyTenants(t => [...t, {id: docRef.id ,...newCustomer}]);
-                        fetchTenants();
+                        await addDoc(tenantsCollection, newCustomer);
+                        await fetchTenants();
 
                         window.alert("Tenant added successfully!")
                         resetFormFields();
@@ -279,7 +280,7 @@ function Tenants(){
                     <option value="" >Room Number</option>
                     {myRooms.map((room, index)=>{
                         const roomCapacity = room.SharingType;
-                        const occupied = (myTenants.filter((tenant, index)=> tenant.RoomNumber === room.RoomNumber).length);
+                        const occupied = (myTenants.filter((tenant, index)=> tenant.RoomNumber === room.RoomNumber && tenant.Status === "Active").length);
                         const remaining = Number(roomCapacity) - Number(occupied);
                         if(remaining >= 1){
                             return(<option value={room.RoomNumber} key={index} >{`${room.RoomNumber}`} - {`${remaining} Slots Left`}</option>)

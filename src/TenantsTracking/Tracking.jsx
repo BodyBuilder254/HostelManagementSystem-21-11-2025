@@ -3,21 +3,55 @@ import React, {useState, useEffect} from "react";
 
 import styles from "./Tracking.module.css";
 
+import { database } from "../Config/Firebase";
+
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+
 function Tracking(){
 
+    //LOCAL STORAGE const [myTenants, setMyTenants] = useState(JSON.parse(localStorage.getItem("20251110MYTenants")) || []);
+    //OLD SYSTEM const [myRooms, setMyRooms] = useState(JSON.parse(localStorage.getItem("20251112MyRooms")) || []);
+    
     const [idNumber, setIDNumber] = useState("");
-    const [myTenants, setMyTenants] = useState(JSON.parse(localStorage.getItem("20251110MYTenants")) || []);
-    const [myRooms, setMyRooms] = useState(JSON.parse(localStorage.getItem("20251112MyRooms")) || []);
+    const [myTenants, setMyTenants] = useState([]);
+    const [myRooms, setMyRooms] = useState([]);
+
+    const tenantsCollection = collection(database, "Tenants");
+    const roomsCollection = collection(database, "Rooms");
+
 
     useEffect(()=>{
-        localStorage.setItem("20251110MYTenants", JSON.stringify(myTenants));
+        //OLD SYSTEM localStorage.setItem("20251110MYTenants", JSON.stringify(myTenants));
+        fetchTenants();
+        fetchRooms();
         console.log(myTenants);
-    }, [myTenants]);
+    }, []);
+
+    async function fetchTenants(){
+        try{
+            const querySnapshot = getDocs(tenantsCollection);
+            const tenantsData = (await querySnapshot).docs.map(doc => ({id: doc.id, ...doc.data()}));
+            setMyTenants(tenantsData);
+        }catch(error){
+            console.error(error);
+            window.alert("Failed to load Tenants data !");
+        }
+    }
     
+    async function fetchRooms(){
+        try{
+            const querySnapshot = getDocs(roomsCollection);
+            const roomsData = (await querySnapshot).docs.map(doc => ({id: doc.id, ...doc.data()}));
+            setMyRooms(roomsData);
+        }catch(error){
+            console.error(error);
+        }
+    }
+
     function handleIDNumber(event){
         setIDNumber(event.target.value);
     }
-    function handleCheckIn(){
+    async function handleCheckIn(){
         // Check IF ID Number is Valid
         if(idNumber.length !== 8 || idNumber < 10000000){
             window.alert("Enter valid ID Number");
@@ -31,43 +65,48 @@ function Tracking(){
                 window.alert("No tenant found");
             }
             else{
-                const tenant = tenantsCopy[tenantIndex];
+                try{
+                    const tenant = tenantsCopy[tenantIndex];
 
-                // Check IF Tenant is Active
-                if(tenant.Status === "Active"){
-                    window.alert("Tenant is alreday checked in");
-                }
-
-                else{
-                    setIDNumber("");
-                    // Check if StayHistory Exists
-                    if(!tenant.StayHistory){
-                        tenant.StayHistory = [];
+                    // Check IF Tenant is Active
+                    if(tenant.Status === "Active"){
+                        window.alert("Tenant is alreday checked in");
                     }
-                    
-                    const room = myRooms.find(room => room.RoomNumber === tenant.RoomNumber);
 
-                    tenant.StayHistory.push({
-                        StartDate: new Date().toISOString().split("T")[0],
-                        EndDate: null,
-                        RoomNumber: tenant.RoomNumber,
-                        MonthlyCharges: room.MonthlyCharges
-                    });
+                    else{
+                        setIDNumber("");
+                        // Check if StayHistory Exists
+                        if(!tenant.StayHistory){
+                            tenant.StayHistory = [];
+                        }
+                        
+                        const room = myRooms.find(room => room.RoomNumber === tenant.RoomNumber);
 
-                    tenant.Status = "Active";
+                        tenant.StayHistory.push({
+                            StartDate: new Date().toISOString().split("T")[0],
+                            EndDate: null,
+                            RoomNumber: tenant.RoomNumber,
+                            MonthlyCharges: room.MonthlyCharges
+                        });
 
-                    tenantsCopy[tenantIndex] = tenant;
+                        tenant.Status = "Active";
 
-                    setMyTenants(tenantsCopy);
+                        const tenantId = tenantsCopy[tenantIndex].id;
+                        const tenantDoc = doc(database, "Tenants", tenantId);
+                        await updateDoc(tenantDoc, tenant);
+                        await fetchTenants();
 
-                    window.alert("Tenant successfully checked IN!");
+                        window.alert("Tenant successfully checked IN!");
+                }}catch(error){
+                    console.error(error);
+                    window.alert("Operation has failed ! Please try again later !");
                 }
             }
 
         }
 
     }
-    function handleCheckOut(){
+    async function handleCheckOut(){
         // Check IF ID Number is Valid
         if(idNumber.length !== 8 || idNumber < 10000000){
             window.alert("Enter valid ID Number");
@@ -90,20 +129,26 @@ function Tracking(){
                         window.alert("Check-in history missing!")
                     }
                     else{
-                        const lastStay = tenant.StayHistory[tenant.StayHistory.length - 1];
-                        if(lastStay.EndDate !== null){
-                            window.alert("This tenant is not currently active!");
-                        }
-                        else{
-                            setIDNumber("");
-                            lastStay.EndDate = new Date().toISOString().split("T")[0];
-                            tenant.Status = "Away";
-                            tenantsCopy[tenantIndex] = tenant;
+                        try{
+                            const lastStay = tenant.StayHistory[tenant.StayHistory.length - 1];
+                            if(lastStay.EndDate !== null){
+                                window.alert("This tenant is not currently active!");
+                            }
+                            else{
+                                setIDNumber("");
+                                lastStay.EndDate = new Date().toISOString().split("T")[0];
+                                tenant.Status = "Away";
 
-                            setMyTenants(tenantsCopy);
+                                
+                                const tenantId = tenantsCopy[tenantIndex].id;
+                                const tenantDoc = doc(database, "Tenants", tenantId);
+                                await updateDoc(tenantDoc, tenant);
 
-                            window.alert("Tenant successfully checked OUT!");
+                                window.alert("Tenant successfully checked OUT");
                             
+                        }}catch(error){
+                            console.error(error);
+                            window.alert("Check out failed ! Please try again later !")
                         }
                     }
                 }

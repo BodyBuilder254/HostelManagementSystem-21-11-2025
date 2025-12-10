@@ -4,11 +4,14 @@ import autoTable from "jspdf-autotable";
 import styles from "./Payment.module.css";
 import React, {useState, useEffect} from "react";
 
+import { database } from "../Config/Firebase";
+import { collection,getDocs, doc, updateDoc } from "firebase/firestore";
 
 function Payment(){
 
 
-    const [myTenants, setMyTenants] = useState(JSON.parse(localStorage.getItem("20251110MYTenants")) || []);
+    //OLD SYSTEM const [myTenants, setMyTenants] = useState(JSON.parse(localStorage.getItem("20251110MYTenants")) || []);
+    const [myTenants, setMyTenants] = useState([]);
     const [idNumber, setIDNumber] = useState("");
     const [qrCode, setQRCode] = useState("");
     const [amountPaid, setAmountPaid] = useState("");
@@ -19,10 +22,14 @@ function Payment(){
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredTenants, setFilteredTenants] = useState([]);
 
+    const tenantsCollection = collection(database, "Tenants");
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(()=>{
-        localStorage.setItem("20251110MYTenants", JSON.stringify(myTenants));
+        //OLD SYSTEM localStorage.setItem("20251110MYTenants", JSON.stringify(myTenants));
+        fetchTenants();
         console.log(myTenants);
-    }, [myTenants]);
+    }, []);
 
     useEffect(()=>{
         const myFilteredTenants = myTenants.filter((tenant) => {
@@ -42,7 +49,9 @@ function Payment(){
             }
         })
         setFilteredTenants(myFilteredTenants);
-    }, [searchTerm])
+        setIsLoading(false);
+
+    }, [searchTerm, myTenants.length])
 
     function handleIDNumber(event){
         setIDNumber(event.target.value);
@@ -63,6 +72,16 @@ function Payment(){
         setPaymentMethod(event.target.value);
     }
 
+    async function fetchTenants(){
+        try{
+            const querySnapshot = await getDocs(tenantsCollection);
+            const tenantsData = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+            setMyTenants(tenantsData);
+        }catch(error){
+            console.error(error);
+            window.alert("Failed to load data ! Please try again later");
+        }
+    }
 
     function handleClearForm(){
         setIDNumber("");
@@ -101,7 +120,7 @@ function Payment(){
         return total;
     }
 
-    function handleSubmit(event){
+    async function handleSubmit(event){
         event.preventDefault();
 
         if(idNumber.length !== 8){
@@ -121,7 +140,7 @@ function Payment(){
                 return window.alert("This tenant does not exist");
             }
             // Continue After Confirming The Tenant Exists
-            else{
+            else{try{
                 const tenant = tenantsCopy[tenantIndex];
                 if(!tenant.PaymentHistory){
                     tenant.PaymentHistory = [];
@@ -135,11 +154,17 @@ function Payment(){
                     PaymentMethod: paymentMethod,
                 });
 
-                tenantsCopy[tenantIndex] = tenant;
-                setMyTenants(tenantsCopy);
+                const tenantId = tenantsCopy[tenantIndex].id;
+                const tenantDoc = doc(database, "Tenants", tenantId);
+                await updateDoc(tenantDoc, tenant);
+                await fetchTenants();
+
                 window.alert("Payment Recorder Successfully !");
                 handleClearForm();
-            }
+            }catch(error){
+                console.error(error);
+                window.alert("Failed to update data ! please try again later !");
+            }}
         }
         
     }
