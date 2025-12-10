@@ -5,12 +5,21 @@
     gap: 20px;
     width: 300px;
     padding: 20px;
+    margin: 0 auto; /* Center the container */
+}
+.myDiv h1 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #333;
 }
 .myDiv input{
     font-size: 25px;
     color: #000;
     border: 1px solid #000;
     padding: 10px;
+    width: 100%; /* Full width on mobile */
+    box-sizing: border-box; /* Include padding in width */
 }
 .myDiv button{
     font-size: 2rem;
@@ -21,8 +30,240 @@
     border: none;
     border-radius: 10px;
     transition: 0.5s ease;
+    width: 100%; /* Full width buttons on mobile */
+    margin-bottom: 10px; /* Space between stacked buttons */
 }
 .myDiv button:hover{
     background-color: blue;
     padding: 25px;
+}
+/* Add this to your CSS file (after your existing code, before media queries) */
+.buttonContainer {
+    display: flex;
+    flex-direction: column; /* Stack on mobile */
+    gap: 10px;
+    width: 100%;
+}
+/* ============ RESPONSIVE MEDIA QUERIES ============ */
+/* Then in media queries, add this: */
+@media (min-width: 768px) {
+    .buttonContainer {
+        flex-direction: row; /* Side-by-side on tablets+ */
+        gap: 20px;
+    }
+    
+    .buttonContainer button {
+        flex: 1; /* Equal width buttons */
+        margin-bottom: 0;
+    }
+}
+
+/* Small devices (phones, 320px to 575px) */
+@media (max-width: 575px) {
+    .myDiv {
+        width: 90%; /* Use 90% of screen on very small phones */
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    .myDiv h1 {
+        font-size: 1.5rem; /* Smaller heading on phones */
+    }
+    
+    .myDiv input {
+        font-size: 20px; /* Slightly smaller font for phones */
+        padding: 12px 10px; /* Comfortable touch target */
+    }
+    
+    .myDiv button {
+        font-size: 1.5rem; /* Smaller button text */
+        padding: 18px 15px; /* Slightly smaller but still touch-friendly */
+    }
+    
+    .myDiv button:hover {
+        padding: 20px 15px; /* Adjusted hover padding */
+    }
+}
+
+/* Medium devices (tablets, 576px to 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+    .myDiv {
+        width: 400px; /* Slightly wider on tablets */
+        padding: 25px;
+    }
+    
+    .myDiv h1 {
+        font-size: 1.8rem;
+    }
+    
+    .myDiv input {
+        font-size: 22px;
+        padding: 12px;
+    }
+    
+    .myDiv button {
+        font-size: 1.8rem;
+        padding: 18px;
+    }
+    
+    .myDiv button:hover {
+        padding: 22px;
+    }
+}
+
+/* Large devices (small laptops, 768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .myDiv {
+        width: 450px;
+        padding: 30px;
+    }
+    
+    .myDiv h1 {
+        font-size: 2rem;
+    }
+    
+    /* Keep buttons stacked but add some side margin */
+    .myDiv button {
+        font-size: 1.8rem;
+        padding: 20px;
+        width: 100%; /* Still full width */
+    }
+    
+    .myDiv button:hover {
+        padding: 25px;
+    }
+}
+
+/* Extra large devices (laptops/desktops, 992px and up) */
+@media (min-width: 992px) {
+    .myDiv {
+        width: 500px; /* Fixed width for larger screens */
+        padding: 30px;
+    }
+    
+    .myDiv h1 {
+        font-size: 2.2rem;
+    }
+    
+    .myDiv input {
+        font-size: 25px;
+        padding: 15px;
+    }
+    
+    .myDiv button {
+        font-size: 2rem;
+        padding: 20px;
+    }
+    
+    .myDiv button:hover {
+        padding: 25px;
+    }
+}
+
+/* Very large screens (1200px and up) */
+@media (min-width: 1200px) {
+    .myDiv {
+        width: 550px;
+        max-width: 600px; /* Don't get too wide */
+    }
+    
+    .myDiv h1 {
+        font-size: 2.5rem;
+    }
+}
+
+/* ============ LANDSCAPE ORIENTATION SUPPORT ============ */
+
+/* Landscape phones */
+@media (max-width: 767px) and (orientation: landscape) {
+    .myDiv {
+        width: 80%; /* Wider in landscape */
+        max-width: 500px;
+        padding: 15px;
+    }
+    
+    .myDiv h1 {
+        font-size: 1.6rem;
+        margin-bottom: 5px;
+    }
+    
+    .myDiv input {
+        font-size: 18px;
+        padding: 8px;
+    }
+    
+    .myDiv button {
+        font-size: 1.4rem;
+        padding: 12px;
+        margin-bottom: 8px;
+    }
+    
+    .myDiv button:hover {
+        padding: 15px;
+    }
+}
+
+/* ============ HIGH DPI SCREENS (Retina) ============ */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .myDiv button {
+        font-weight: 500; /* Slightly bolder for crisp screens */
+    }
+}
+
+/* ============ DARK MODE SUPPORT ============ */
+@media (prefers-color-scheme: dark) {
+    .myDiv {
+        background-color: #1a1a1a;
+    }
+    
+    .myDiv h1 {
+        color: #fff;
+    }
+    
+    .myDiv input {
+        background-color: #2d2d2d;
+        color: #fff;
+        border-color: #555;
+    }
+    
+    .myDiv input::placeholder {
+        color: #aaa;
+    }
+    
+    .myDiv button {
+        background-color: #8a2be2; /* Slightly lighter purple for dark mode */
+    }
+    
+    .myDiv button:hover {
+        background-color: #4169e1; /* Slightly lighter blue for dark mode */
+    }
+}
+
+/* ============ ACCESSIBILITY (Reduced motion) ============ */
+@media (prefers-reduced-motion: reduce) {
+    .myDiv button {
+        transition: none; /* Remove animations for users who prefer reduced motion */
+    }
+    
+    .myDiv button:hover {
+        padding: 20px; /* No padding change on hover */
+    }
+}
+
+/* ============ PRINT STYLES ============ */
+@media print {
+    .myDiv {
+        width: 100%;
+        padding: 0;
+        border: none;
+    }
+    
+    .myDiv button {
+        display: none; /* Hide buttons when printing */
+    }
+    
+    .myDiv input {
+        border: 1px solid #ccc;
+        background: none;
+    }
 }

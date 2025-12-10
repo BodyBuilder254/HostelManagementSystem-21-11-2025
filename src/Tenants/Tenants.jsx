@@ -271,11 +271,18 @@ function Tenants(){
             <h1>New Tenants Registration</h1>
 
             <form className={styles.myForm} onSubmit={handleAddCustomer} >
-                <input type="number" placeholder="ID Number" value={idNumber} onChange={handleIDNumber} required/><br/>
-                <input type="number" placeholder="Phone Number" value={phoneNumber} onChange={handlePhoneNumber} required/><br/>
-                <input type="text" placeholder="First Name" value={firstName} onChange={handleFirstName} required/><br/>
-                <input type="text" placeholder="Last Name" value={lastName} onChange={handleLastName} required /><br />
-                <input type="date" value={entryDate} onChange={handleEntryDate} required /><br/>
+                <div className={styles.formRow}>
+                    <input type="number" placeholder="ID Number" value={idNumber} onChange={handleIDNumber} required/><br/>
+                    <input type="number" placeholder="Phone Number" value={phoneNumber} onChange={handlePhoneNumber} required/><br/>
+                </div>
+                <div className={styles.formRow}>
+                    <input type="text" placeholder="First Name" value={firstName} onChange={handleFirstName} required/><br/>
+                    <input type="text" placeholder="Last Name" value={lastName} onChange={handleLastName} required /><br />
+                </div>
+                <div className={styles.formGroup}>
+                    <label>Entry Date</label>
+                    <input type="date" value={entryDate} onChange={handleEntryDate} required /><br/>
+                </div>
                 <select value={roomNumber} onChange={handleRoomNumber} required >
                     <option value="" >Room Number</option>
                     {myRooms.map((room, index)=>{
@@ -308,7 +315,8 @@ function Tenants(){
                 <button onClick={handleExportCSV} >Export CSV</button>
                 <button onClick={handleExportPDF} >Export PDF</button>
             </div>
-
+            
+            <div className={styles.tableContainer} >
             <table className={styles.myTable} >
                 <thead>
                     <tr>
@@ -346,6 +354,7 @@ function Tenants(){
                 </tbody>
 
             </table>
+            </div>
         </div>
     );
 }

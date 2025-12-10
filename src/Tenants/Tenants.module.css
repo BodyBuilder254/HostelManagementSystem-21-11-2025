@@ -94,3 +94,376 @@
 .deleteButton:hover, .editButton:hover, .exportControls button:hover{
     opacity: 0.5;
 }
+
+/* ============ RESPONSIVE MEDIA QUERIES ============ */
+
+/* Make table scroll horizontally on small screens */
+.tableContainer {
+    overflow-x: auto;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.myTable {
+    min-width: 800px; /* Force horizontal scroll on mobile */
+    width: 100%;
+}
+
+/* Small devices (phones, 320px to 575px) */
+@media (max-width: 575px) {
+    .container {
+        gap: 20px;
+        padding: 10px;
+    }
+    
+    .myForm {
+        width: 100%; /* Full width on mobile */
+        padding: 15px;
+        background-color: #f5f5f5;
+        border-radius: 10px;
+    }
+    
+    .myForm input,
+    .myForm select {
+        font-size: 16px; /* Smaller font for mobile */
+        padding: 12px;
+        width: 100%; /* Full width inputs */
+        box-sizing: border-box;
+    }
+    
+    .myForm div {
+        font-size: 1.2rem; /* Smaller radio button labels */
+        flex-direction: column; /* Stack radio buttons vertically */
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .myForm button {
+        font-size: 1.5rem;
+        padding: 15px;
+        width: 100%;
+    }
+    
+    .searchBar {
+        flex-direction: column; /* Stack search bar vertically */
+        gap: 15px;
+        width: 100%;
+    }
+    
+    .searchBar input {
+        width: 100%;
+        font-size: 16px;
+        padding: 12px;
+    }
+    
+    .searchBar button {
+        width: 100%;
+        font-size: 1.2rem;
+        padding: 12px;
+    }
+    
+    .exportControls {
+        flex-direction: column; /* Stack export buttons vertically */
+        gap: 15px;
+        width: 100%;
+    }
+    
+    .exportControls button {
+        width: 100%;
+        font-size: 1.2rem;
+        padding: 12px;
+    }
+    
+    .myTable th,
+    .myTable td {
+        font-size: 14px; /* Smaller table text */
+        padding: 8px 4px; /* Reduced padding */
+    }
+    
+    .myTable .editButton,
+    .myTable .deleteButton {
+        font-size: 14px;
+        padding: 6px 12px;
+        margin: 2px;
+    }
+    
+    h1 {
+        font-size: 1.5rem; /* Smaller heading */
+        text-align: center;
+    }
+}
+
+/* Medium devices (tablets, 576px to 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+    .container {
+        gap: 30px;
+        padding: 15px;
+    }
+    
+    .myForm {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    .myForm input,
+    .myForm select {
+        font-size: 18px;
+        padding: 10px;
+    }
+    
+    .myForm div {
+        font-size: 1.5rem;
+    }
+    
+    .myForm button {
+        font-size: 1.8rem;
+        padding: 18px;
+    }
+    
+    .searchBar {
+        flex-wrap: wrap; /* Wrap search elements on tablets */
+        justify-content: center;
+    }
+    
+    .searchBar input {
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    .myTable th,
+    .myTable td {
+        font-size: 16px;
+        padding: 10px 6px;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+}
+
+/* Large devices (small laptops, 768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .container {
+        gap: 35px;
+        padding: 20px;
+        max-width: 95%;
+        margin: 0 auto;
+    }
+    
+    .myForm {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .myTable {
+        min-width: 700px; /* Slightly smaller min-width for tablets */
+    }
+    
+    .searchBar input {
+        width: 300px; /* Fixed width for search input */
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Extra large devices (laptops/desktops, 992px and up) */
+@media (min-width: 992px) {
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+    
+    .myForm {
+        width: 500px; /* Fixed width on large screens */
+        margin: 0 auto;
+    }
+    
+    .myTable {
+        min-width: 800px; /* Allow table to be fully visible */
+    }
+    
+    .searchBar {
+        justify-content: center;
+    }
+    
+    h1 {
+        font-size: 2.2rem;
+        text-align: center;
+    }
+}
+
+/* Very large screens (1200px and up) */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1400px;
+    }
+    
+    .myForm {
+        width: 600px;
+    }
+    
+    .myTable {
+        min-width: 900px;
+    }
+}
+
+/* ============ LANDSCAPE ORIENTATION SUPPORT ============ */
+
+/* Landscape phones */
+@media (max-width: 767px) and (orientation: landscape) {
+    .container {
+        gap: 15px;
+        padding: 10px;
+    }
+    
+    .myForm {
+        width: 100%;
+        max-width: none;
+    }
+    
+    .myForm div {
+        flex-direction: row; /* Keep radio buttons side by side in landscape */
+        justify-content: space-around;
+    }
+    
+    .myTable th,
+    .myTable td {
+        font-size: 12px; /* Even smaller text in landscape */
+        padding: 6px 3px;
+    }
+}
+
+/* ============ FORM RESPONSIVE LAYOUT ============ */
+
+/* Create responsive form layout for wider screens */
+@media (min-width: 768px) {
+    .formRow {
+        display: flex;
+        gap: 15px;
+        width: 100%;
+    }
+    
+    .formRow input {
+        flex: 1; /* Make inputs share space equally */
+    }
+    
+    .formGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-bottom: 15px;
+    }
+    
+    .formGroup label {
+        font-size: 14px;
+        color: #666;
+    }
+}
+
+/* ============ TABLE RESPONSIVE ENHANCEMENTS ============ */
+
+/* Show important columns only on very small screens */
+@media (max-width: 400px) {
+    .myTable th:nth-child(5), /* Entry Date */
+    .myTable td:nth-child(5),
+    .myTable th:nth-child(7), /* Gender */
+    .myTable td:nth-child(7),
+    .myTable th:nth-child(8), /* Monthly Charges */
+    .myTable td:nth-child(8) {
+        display: none; /* Hide less important columns on tiny screens */
+    }
+    
+    .myTable {
+        min-width: 500px; /* Smaller min-width for very small screens */
+    }
+}
+
+/* ============ DARK MODE SUPPORT ============ */
+@media (prefers-color-scheme: dark) {
+    .container {
+        background-color: #1a1a1a;
+        color: #fff;
+    }
+    
+    .myForm {
+        background-color: #2d2d2d;
+    }
+    
+    .myForm input,
+    .myForm select {
+        background-color: #3d3d3d;
+        color: #fff;
+        border-color: #555;
+    }
+    
+    .myForm input::placeholder {
+        color: #aaa;
+    }
+    
+    .myTable {
+        color: #fff;
+    }
+    
+    .myTable th {
+        background-color: #333;
+    }
+    
+    .myTable td {
+        background-color: #2d2d2d;
+        color: #fff;
+    }
+    
+    .myTable tr:nth-child(even) td {
+        background-color: #3d3d3d;
+    }
+}
+
+/* ============ ACCESSIBILITY (Reduced motion) ============ */
+@media (prefers-reduced-motion: reduce) {
+    .myForm button,
+    .myTable button,
+    .searchBar button,
+    .exportControls button {
+        transition: none;
+    }
+    
+    .myForm button:hover,
+    .deleteButton:hover,
+    .editButton:hover,
+    .exportControls button:hover {
+        opacity: 1; /* Remove opacity change */
+        filter: brightness(0.9); /* Use brightness instead */
+    }
+}
+
+/* ============ PRINT STYLES ============ */
+@media print {
+    .container {
+        width: 100%;
+        padding: 0;
+    }
+    
+    .myForm,
+    .searchBar,
+    .exportControls,
+    .myTable button {
+        display: none; /* Hide interactive elements when printing */
+    }
+    
+    .myTable {
+        min-width: 100%;
+        width: 100%;
+    }
+    
+    .myTable th,
+    .myTable td {
+        border: 1px solid #000;
+        padding: 5px;
+    }
+}

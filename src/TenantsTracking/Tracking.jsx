@@ -160,8 +160,10 @@ function Tracking(){
         <div className={styles.myDiv} >
             <h1>Check In and Out</h1>
             <input value={idNumber} onChange={handleIDNumber} type="number" placeholder="Enter ID Number" min={10000000}/>
-            <button onClick={handleCheckIn}>Check In</button>
-            <button onClick={handleCheckOut}>Check Out</button>
+            <div className={styles.buttonContainer}>
+                <button onClick={handleCheckIn}>Check In</button>
+                <button onClick={handleCheckOut}>Check Out</button>
+            </div>
         </div>
     );
 }
