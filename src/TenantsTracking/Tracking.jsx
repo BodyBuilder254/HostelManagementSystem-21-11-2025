@@ -24,8 +24,8 @@ function Tracking(){
 
     useEffect(()=>{
         //OLD SYSTEM localStorage.setItem("20251110MYTenants", JSON.stringify(myTenants));
-        console.log(`Initial Tenants: ${myTenants.length}`);
-        console.log(`Initial Rooms: ${myRooms.length}`);
+        // console.log(`Initial Tenants: ${myTenants.length}`);
+        // console.log(`Initial Rooms: ${myRooms.length}`);
         fetchData();  
         document.title = "CheckIn/Out-Page"
         
@@ -34,9 +34,9 @@ function Tracking(){
     async function fetchData(){
         setLoading(true);
         await fetchTenants();
-        console.log(`Cloud Tenants: ${myTenants.length}`)
+        // console.log(`Cloud Tenants: ${myTenants.length}`)
         await fetchRooms();
-        console.log(`Cloud Rooms: ${myRooms.length}`);
+        // console.log(`Cloud Rooms: ${myRooms.length}`);
         setLoading(false);
     } 
 
