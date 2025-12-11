@@ -180,6 +180,11 @@ function Tracking(){
     return(
         <div className={styles.myDiv} >
             <h1>Check In and Out</h1>
+
+            {loading ? <select>
+                <option>Loading...</option>
+            </select>
+            : (
             <select value={roomNumber} onChange={handleRoomNumber} required >
                 <option value="" >Room Number</option>
                 {myRooms.map((room, index)=>{
@@ -190,8 +195,11 @@ function Tracking(){
                     if(remaining >= 1){
                         return(<option value={room.RoomNumber} key={index} >{`${room.RoomNumber}`} - {`${remaining} Slots Left`}</option>)
                     }
+                    return null;
                 })}
-            </select>
+            </select>)
+            }
+
             <input value={idNumber} onChange={handleIDNumber} type="number" placeholder="Enter ID Number" min={10000000}/>
             <div className={styles.buttonContainer}>
                 <button onClick={handleCheckIn}>Check In</button>
