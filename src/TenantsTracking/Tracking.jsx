@@ -24,8 +24,8 @@ function Tracking(){
 
     useEffect(()=>{
         //OLD SYSTEM localStorage.setItem("20251110MYTenants", JSON.stringify(myTenants));
-        console.log(`Initial Tenants: ${myTenants}`);
-        console.log(`Initial Rooms: ${myRooms}`);
+        console.log(`Initial Tenants: ${myTenants.length}`);
+        console.log(`Initial Rooms: ${myRooms.length}`);
         fetchData();  
         document.title = "CheckIn/Out-Page"
         
@@ -34,9 +34,9 @@ function Tracking(){
     async function fetchData(){
         setLoading(true);
         await fetchTenants();
-        console.log(`Cloud Tenants: ${myTenants}`)
+        console.log(`Cloud Tenants: ${myTenants.length}`)
         await fetchRooms();
-        console.log(`Cloud Rooms: ${myRooms}`);
+        console.log(`Cloud Rooms: ${myRooms.length}`);
         setLoading(false);
     } 
 
@@ -184,7 +184,8 @@ function Tracking(){
                 <option value="" >Room Number</option>
                 {myRooms.map((room, index)=>{
                     const roomCapacity = room.SharingType;
-                    const occupied = (myTenants.filter((tenant)=> tenant.RoomNumber === room.RoomNumber && tenant.Status === "Active").length);
+                    const occupied = (myTenants.filter((tenant)=> tenant.RoomNumber && tenant.RoomNumber === room.RoomNumber && tenant.Status === "Active").length);
+                    
                     const remaining = Number(roomCapacity) - Number(occupied);
                     if(remaining >= 1){
                         return(<option value={room.RoomNumber} key={index} >{`${room.RoomNumber}`} - {`${remaining} Slots Left`}</option>)
