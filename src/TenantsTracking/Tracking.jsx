@@ -24,25 +24,23 @@ function Tracking(){
 
     useEffect(()=>{
         //OLD SYSTEM localStorage.setItem("20251110MYTenants", JSON.stringify(myTenants));
-        async function fetchData(){
-            setLoading(true);
-            await fetchTenants();
-            await fetchRooms();
-            setLoading(false);
-        }  
+ 
         fetchData();  
         document.title = "CheckIn/Out-Page"
         
     }, []);
 
-    if(loading){
-        <div className = {styles.loading} >Loading...</div>
-    }
+    async function fetchData(){
+        setLoading(true);
+        await fetchTenants();
+        await fetchRooms();
+        setLoading(false);
+    } 
 
     async function fetchTenants(){
         try{
-            const querySnapshot = getDocs(tenantsCollection);
-            const tenantsData = (await querySnapshot).docs.map(doc => ({id: doc.id, ...doc.data()}));
+            const querySnapshot = await getDocs(tenantsCollection);
+            const tenantsData = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
             setMyTenants(tenantsData);
         }catch(error){
             console.error(error);
@@ -52,8 +50,8 @@ function Tracking(){
     
     async function fetchRooms(){
         try{
-            const querySnapshot = getDocs(roomsCollection);
-            const roomsData = (await querySnapshot).docs.map(doc => ({id: doc.id, ...doc.data()}));
+            const querySnapshot = await getDocs(roomsCollection);
+            const roomsData = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
             setMyRooms(roomsData);
         }catch(error){
             console.error(error);
