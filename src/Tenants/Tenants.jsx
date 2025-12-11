@@ -81,7 +81,7 @@ function Tenants(){
         setFirstName("");
         setLastName("");
         // setEntryDate("");
-        setRoomNumber("");
+        // setRoomNumber("");
         setGender("");
     }
 
@@ -99,7 +99,7 @@ function Tenants(){
         else{
             const newCustomer = {
                 IDNumber: idNumber, PhoneNumber: phoneNumber ,FirstName: firstName, LastName: lastName,
-                Gender: gender, Status: "Away",
+                EntryDate: (new Date().toISOString().split("T")[0]), Gender: gender, Status: "Away",
             }
 
             try{

@@ -29,7 +29,8 @@ function Tracking(){
             await fetchTenants();
             await fetchRooms();
             setLoading(false);
-        }    
+        }  
+        fetchData();  
         document.title = "CheckIn/Out-Page"
         
     }, []);
@@ -108,7 +109,7 @@ function Tracking(){
                         });
 
                         tenant.Status = "Active";
-                        tenant.EntryDate = new Date().toISOString().split("T")[0];
+                        // tenant.EntryDate = new Date().toISOString().split("T")[0];
 
                         const tenantId = tenantsCopy[tenantIndex].id;
                         const tenantDoc = doc(database, "Tenants", tenantId);
