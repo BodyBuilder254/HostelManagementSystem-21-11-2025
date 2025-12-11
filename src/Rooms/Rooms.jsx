@@ -17,7 +17,7 @@ function Rooms(){
 
     useEffect(()=>{
         // localStorage.setItem("20251112MyRooms", JSON.stringify(myRooms)) BE CAREFUL;
-        document.title = "Rooms";
+        document.title = "RoomsPage";
         fetchRooms();
         fetchTenants();
     }, []);
@@ -160,7 +160,7 @@ function Rooms(){
             }
         }catch(error){
             console.error(error);
-            signInWithEmailAndPassword.alert("failed to save Room data !");
+            window.alert("failed to save Room data !");
         }
 
         
@@ -320,6 +320,7 @@ function Rooms(){
                 <button className={styles.searchButton} onClick={exportCSV} >Export CSV</button>
                 <button className={styles.resetButton} onClick={exPortPDF} >Export PDF</button>
             </div>
+            <div className={styles.tableContainer}>
             <table className={styles.myTable}>
                 <thead>
                     <tr>
@@ -351,6 +352,7 @@ function Rooms(){
                     </tr>)})}
                 </tbody>
             </table>
+            </div>
         </div>
     );
 }

@@ -15,6 +15,8 @@ function Tracking(){
     const [idNumber, setIDNumber] = useState("");
     const [myTenants, setMyTenants] = useState([]);
     const [myRooms, setMyRooms] = useState([]);
+    const [roomNumber, setRoomNumber] = useState("");
+    const [loading, setLoading] = useState(true);
 
     const tenantsCollection = collection(database, "Tenants");
     const roomsCollection = collection(database, "Rooms");
@@ -22,10 +24,19 @@ function Tracking(){
 
     useEffect(()=>{
         //OLD SYSTEM localStorage.setItem("20251110MYTenants", JSON.stringify(myTenants));
-        fetchTenants();
-        fetchRooms();
-        console.log(myTenants);
+        async function fetchData(){
+            setLoading(true);
+            await fetchTenants();
+            await fetchRooms();
+            setLoading(false);
+        }    
+        document.title = "CheckIn/Out-Page"
+        
     }, []);
+
+    if(loading){
+        <div className = {styles.loading} >Loading...</div>
+    }
 
     async function fetchTenants(){
         try{
@@ -47,13 +58,18 @@ function Tracking(){
             console.error(error);
         }
     }
-
+    function handleRoomNumber(event){
+        setRoomNumber(event.target.value);
+    }
     function handleIDNumber(event){
         setIDNumber(event.target.value);
     }
     async function handleCheckIn(){
         // Check IF ID Number is Valid
-        if(idNumber.length !== 8 || idNumber < 10000000){
+        if(!roomNumber){
+            window.alert("Select valid Room !");
+        }
+        else if(idNumber.length !== 8 || idNumber < 10000000){
             window.alert("Enter valid ID Number");
         }
         else{
@@ -75,21 +91,24 @@ function Tracking(){
 
                     else{
                         setIDNumber("");
+                        setRoomNumber("");
                         // Check if StayHistory Exists
                         if(!tenant.StayHistory){
                             tenant.StayHistory = [];
                         }
                         
-                        const room = myRooms.find(room => room.RoomNumber === tenant.RoomNumber);
+                        const room = myRooms.find(room => room.RoomNumber === roomNumber);
+                        tenant.RoomNumber = room.RoomNumber;
 
                         tenant.StayHistory.push({
                             StartDate: new Date().toISOString().split("T")[0],
                             EndDate: null,
-                            RoomNumber: tenant.RoomNumber,
+                            RoomNumber: room.RoomNumber,
                             MonthlyCharges: room.MonthlyCharges
                         });
 
                         tenant.Status = "Active";
+                        tenant.EntryDate = new Date().toISOString().split("T")[0];
 
                         const tenantId = tenantsCopy[tenantIndex].id;
                         const tenantDoc = doc(database, "Tenants", tenantId);
@@ -159,6 +178,17 @@ function Tracking(){
     return(
         <div className={styles.myDiv} >
             <h1>Check In and Out</h1>
+            <select value={roomNumber} onChange={handleRoomNumber} required >
+                <option value="" >Room Number</option>
+                {myRooms.map((room, index)=>{
+                    const roomCapacity = room.SharingType;
+                    const occupied = (myTenants.filter((tenant)=> tenant.RoomNumber === room.RoomNumber && tenant.Status === "Active").length);
+                    const remaining = Number(roomCapacity) - Number(occupied);
+                    if(remaining >= 1){
+                        return(<option value={room.RoomNumber} key={index} >{`${room.RoomNumber}`} - {`${remaining} Slots Left`}</option>)
+                    }
+                })}
+            </select>
             <input value={idNumber} onChange={handleIDNumber} type="number" placeholder="Enter ID Number" min={10000000}/>
             <div className={styles.buttonContainer}>
                 <button onClick={handleCheckIn}>Check In</button>

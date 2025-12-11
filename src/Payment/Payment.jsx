@@ -28,7 +28,7 @@ function Payment(){
     useEffect(()=>{
         //OLD SYSTEM localStorage.setItem("20251110MYTenants", JSON.stringify(myTenants));
         fetchTenants();
-        console.log(myTenants);
+        document.title = "PayamentsPage";
     }, []);
 
     useEffect(()=>{
@@ -286,6 +286,7 @@ function Payment(){
 
     return(
         <div className={styles.myContainer} >
+            <h1>Payments Recording</h1>
             <form className={styles.myForm} onSubmit={handleSubmit} >
                 <input type="number" value={idNumber} onChange={handleIDNumber} placeholder="Enter ID Number" required />
                 <input type="text" value={qrCode} onChange={handleQRCode} placeholder="Transaction ID" required />  
@@ -320,6 +321,7 @@ function Payment(){
                 <button onClick={handleExportPDF} >ExPort PDF</button>
             </div>
 
+            <div className={styles.tableContainer}>
             <table className={styles.myTable} >
                 <thead>
                     <tr>
@@ -352,6 +354,7 @@ function Payment(){
                     }
                 </tbody>
             </table>
+            </div>
         </div>
     );
 }

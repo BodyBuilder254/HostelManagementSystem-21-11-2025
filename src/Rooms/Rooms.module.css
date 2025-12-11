@@ -85,3 +85,444 @@
 .myTable .deleteButton:hover, .myTable .editButton:hover, .myExport button:hover{
     opacity: 0.5;
 }
+
+/* ============ RESPONSIVE MEDIA QUERIES ============ */
+
+/* Make table scroll horizontally on small screens */
+.tableContainer {
+    overflow-x: auto;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.myTable {
+    min-width: 900px; /* Force horizontal scroll on mobile */
+    width: 100%;
+}
+
+/* Small devices (phones, 320px to 575px) */
+@media (max-width: 575px) {
+    .myContainer {
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    .myForm {
+        width: 100%; /* Full width on mobile */
+        max-width: none;
+        padding: 15px;
+        background-color: #f5f5f5;
+        border-radius: 10px;
+    }
+    
+    .myForm input,
+    .myForm select,
+    .searchTab input {
+        font-size: 16px; /* Smaller font for mobile */
+        padding: 12px;
+        width: 100%; /* Full width inputs */
+        box-sizing: border-box;
+    }
+    
+    .myForm div {
+        font-size: 18px; /* Smaller radio button labels */
+        flex-direction: column; /* Stack radio buttons vertically */
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .myForm div br {
+        display: none; /* Remove line breaks in radio group */
+    }
+    
+    .myForm button,
+    .searchTab button,
+    .myTable button,
+    .myExport button {
+        font-size: 1.2rem;
+        padding: 15px;
+        width: 100%; /* Full width buttons */
+    }
+    
+    .searchTab {
+        flex-direction: column; /* Stack search bar vertically */
+        gap: 15px;
+        width: 100%;
+    }
+    
+    .searchTab input {
+        width: 100%;
+    }
+    
+    .myExport {
+        flex-direction: column; /* Stack export buttons vertically */
+        gap: 15px;
+        width: 100%;
+    }
+    
+    .myTable th {
+        font-size: 14px; /* Smaller table headers */
+        padding: 8px 4px;
+    }
+    
+    .myTable td {
+        font-size: 14px; /* Smaller table text */
+        padding: 8px 4px;
+    }
+    
+    .myTable .deleteButton,
+    .myTable .editButton {
+        font-size: 14px;
+        padding: 8px 12px;
+        margin: 2px 0;
+        display: block;
+        width: 100%; /* Full width buttons in table */
+    }
+    
+    h1 {
+        font-size: 1.5rem; /* Smaller heading */
+        text-align: center;
+        margin-bottom: 10px;
+    }
+}
+
+/* Medium devices (tablets, 576px to 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+    .myContainer {
+        padding: 20px;
+        gap: 20px;
+    }
+    
+    .myForm {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    .myForm input,
+    .myForm select,
+    .searchTab input {
+        font-size: 18px;
+        padding: 10px;
+    }
+    
+    .myForm div {
+        font-size: 20px;
+        flex-direction: row; /* Keep radio buttons side by side */
+        justify-content: space-around;
+    }
+    
+    .myForm button,
+    .searchTab button,
+    .myTable button,
+    .myExport button {
+        font-size: 1.5rem;
+        padding: 15px;
+    }
+    
+    .searchTab {
+        flex-wrap: wrap; /* Wrap search elements */
+        justify-content: center;
+    }
+    
+    .searchTab input {
+        flex: 1;
+        min-width: 250px;
+    }
+    
+    .myTable th {
+        font-size: 18px;
+        padding: 10px 5px;
+    }
+    
+    .myTable td {
+        font-size: 16px;
+        padding: 10px 5px;
+    }
+    
+    .myTable .deleteButton,
+    .myTable .editButton {
+        font-size: 16px;
+        padding: 8px 15px;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+}
+
+/* Large devices (small laptops, 768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .myContainer {
+        padding: 25px;
+        gap: 25px;
+        max-width: 95%;
+        margin: 0 auto;
+    }
+    
+    .myForm {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .myTable {
+        min-width: 800px; /* Slightly smaller min-width for tablets */
+    }
+    
+    .searchTab {
+        justify-content: center;
+    }
+    
+    .searchTab input {
+        width: 300px; /* Fixed width for search input */
+    }
+    
+    .myExport {
+        justify-content: center;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Extra large devices (laptops/desktops, 992px and up) */
+@media (min-width: 992px) {
+    .myContainer {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+    
+    .myForm {
+        width: 500px; /* Fixed width on large screens */
+        margin: 0 auto;
+    }
+    
+    .myTable {
+        min-width: 900px;
+    }
+    
+    .searchTab {
+        justify-content: center;
+    }
+    
+    .myExport {
+        justify-content: center;
+    }
+    
+    h1 {
+        font-size: 2.2rem;
+        text-align: center;
+    }
+}
+
+/* Very large screens (1200px and up) */
+@media (min-width: 1200px) {
+    .myContainer {
+        max-width: 1400px;
+    }
+    
+    .myForm {
+        width: 600px;
+    }
+    
+    .myTable {
+        min-width: 1000px;
+    }
+}
+
+/* ============ LANDSCAPE ORIENTATION SUPPORT ============ */
+
+/* Landscape phones */
+@media (max-width: 767px) and (orientation: landscape) {
+    .myContainer {
+        padding: 10px;
+        gap: 10px;
+    }
+    
+    .myForm {
+        max-width: none;
+    }
+    
+    .myForm div {
+        flex-direction: row; /* Keep radio buttons side by side in landscape */
+    }
+    
+    .myTable th,
+    .myTable td {
+        font-size: 12px; /* Even smaller text in landscape */
+        padding: 6px 3px;
+    }
+    
+    .myTable .deleteButton,
+    .myTable .editButton {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+}
+
+/* ============ FORM RESPONSIVE LAYOUT ============ */
+
+/* Create responsive form layout for wider screens */
+@media (min-width: 768px) {
+    .formRow {
+        display: flex;
+        gap: 15px;
+        width: 100%;
+    }
+    
+    .formRow input,
+    .formRow select {
+        flex: 1; /* Make inputs share space equally */
+    }
+    
+    .formGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-bottom: 15px;
+    }
+    
+    .formGroup label {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 5px;
+    }
+}
+
+/* ============ TABLE RESPONSIVE ENHANCEMENTS ============ */
+
+/* Show important columns only on very small screens */
+@media (max-width: 400px) {
+    .myTable th:nth-child(2), /* Floor Number */
+    .myTable td:nth-child(2),
+    .myTable th:nth-child(4), /* Gender */
+    .myTable td:nth-child(4) {
+        display: none; /* Hide less important columns on tiny screens */
+    }
+    
+    .myTable {
+        min-width: 600px; /* Smaller min-width for very small screens */
+    }
+}
+
+/* ============ VACANCY COLOR CODING ============ */
+.myTable td:nth-child(6) { /* Vacancy column */
+    font-weight: bold;
+}
+
+.myTable td:nth-child(6):contains("Full") {
+    color: #ff4444; /* Red for full rooms */
+}
+
+.myTable td:nth-child(6):contains("Slots") {
+    color: #00aa00; /* Green for available slots */
+}
+
+/* ============ DARK MODE SUPPORT ============ */
+@media (prefers-color-scheme: dark) {
+    .myContainer {
+        background-color: #1a1a1a;
+        color: #fff;
+    }
+    
+    .myForm {
+        background-color: #2d2d2d;
+    }
+    
+    .myForm input,
+    .myForm select,
+    .searchTab input {
+        background-color: #3d3d3d;
+        color: #fff;
+        border-color: #555;
+    }
+    
+    .myForm input::placeholder {
+        color: #aaa;
+    }
+    
+    .myForm select {
+        color: #8ab4f8; /* Light blue for better visibility */
+    }
+    
+    .myTable {
+        color: #fff;
+    }
+    
+    .myTable th {
+        background-color: #333;
+    }
+    
+    .myTable td {
+        background-color: #2d2d2d;
+        color: #fff;
+    }
+    
+    .myTable tr:nth-child(even) td {
+        background-color: #3d3d3d;
+    }
+    
+    /* Adjust vacancy colors for dark mode */
+    .myTable td:nth-child(6):contains("Full") {
+        color: #ff6b6b; /* Softer red for dark mode */
+    }
+    
+    .myTable td:nth-child(6):contains("Slots") {
+        color: #4cd964; /* Softer green for dark mode */
+    }
+}
+
+/* ============ ACCESSIBILITY (Reduced motion) ============ */
+@media (prefers-reduced-motion: reduce) {
+    .myForm button,
+    .searchTab button,
+    .myTable button,
+    .myExport button {
+        transition: none;
+    }
+    
+    .myForm button:hover,
+    .searchTab button:hover,
+    .deleteButton:hover,
+    .editButton:hover,
+    .myExport button:hover {
+        opacity: 1; /* Remove opacity change */
+        filter: brightness(0.9); /* Use brightness instead */
+    }
+}
+
+/* ============ PRINT STYLES ============ */
+@media print {
+    .myContainer {
+        width: 100%;
+        padding: 0;
+    }
+    
+    .myForm,
+    .searchTab,
+    .myExport,
+    .myTable button {
+        display: none; /* Hide interactive elements when printing */
+    }
+    
+    .myTable {
+        min-width: 100%;
+        width: 100%;
+    }
+    
+    .myTable th,
+    .myTable td {
+        border: 1px solid #000;
+        padding: 5px;
+    }
+    
+    .myTable th {
+        background-color: #f0f0f0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

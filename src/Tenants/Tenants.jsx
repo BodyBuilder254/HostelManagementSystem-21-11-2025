@@ -17,8 +17,7 @@ function Tenants(){
     const [phoneNumber, setPhoneNumber] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [entryDate, setEntryDate] = useState("");
-    const [roomNumber, setRoomNumber] = useState("");
+    // const [entryDate, setEntryDate] = useState("");
     const [gender, setGender] = useState("");
 
     const [editIndex, setEditIndex] = useState(null);
@@ -31,9 +30,9 @@ function Tenants(){
 
     useEffect(()=>{
         document.title = "Tenants";
-        console.log(myTenants);
         fetchTenants();
         fetchRooms();
+        document.title= "TenantsPage";
     }, []);
 
     async function fetchTenants(){
@@ -70,12 +69,9 @@ function Tenants(){
     function handleLastName(event){
         setLastName(event.target.value);
     }
-    function handleEntryDate(event){
-        setEntryDate(event.target.value);
-    }
-    function handleRoomNumber(event){
-        setRoomNumber(event.target.value);
-    }
+    // function handleEntryDate(event){
+    //     setEntryDate(event.target.value);
+    // }
     function handleGender(event){
         setGender(event.target.value);
     }
@@ -84,7 +80,7 @@ function Tenants(){
         setPhoneNumber("");
         setFirstName("");
         setLastName("");
-        setEntryDate("");
+        // setEntryDate("");
         setRoomNumber("");
         setGender("");
     }
@@ -103,7 +99,7 @@ function Tenants(){
         else{
             const newCustomer = {
                 IDNumber: idNumber, PhoneNumber: phoneNumber ,FirstName: firstName, LastName: lastName,
-                EntryDate: entryDate, RoomNumber: roomNumber, Gender: gender, Status: "Away",
+                Gender: gender, Status: "Away",
             }
 
             try{
@@ -153,8 +149,7 @@ function Tenants(){
         setPhoneNumber(tenantToEdit.PhoneNumber);
         setFirstName(tenantToEdit.FirstName);
         setLastName(tenantToEdit.LastName);
-        setEntryDate(tenantToEdit.EntryDate);
-        setRoomNumber(tenantToEdit.RoomNumber);
+        // setEntryDate(tenantToEdit.EntryDate);
         setGender(tenantToEdit.Gender);
         // setMonthlyCharges(tenantToEdit.MonthlyCharges);
 
@@ -279,21 +274,10 @@ function Tenants(){
                     <input type="text" placeholder="First Name" value={firstName} onChange={handleFirstName} required/><br/>
                     <input type="text" placeholder="Last Name" value={lastName} onChange={handleLastName} required /><br />
                 </div>
-                <div className={styles.formGroup}>
+                {/* <div className={styles.formGroup}>
                     <label>Entry Date</label>
                     <input type="date" value={entryDate} onChange={handleEntryDate} required /><br/>
-                </div>
-                <select value={roomNumber} onChange={handleRoomNumber} required >
-                    <option value="" >Room Number</option>
-                    {myRooms.map((room, index)=>{
-                        const roomCapacity = room.SharingType;
-                        const occupied = (myTenants.filter((tenant, index)=> tenant.RoomNumber === room.RoomNumber && tenant.Status === "Active").length);
-                        const remaining = Number(roomCapacity) - Number(occupied);
-                        if(remaining >= 1){
-                            return(<option value={room.RoomNumber} key={index} >{`${room.RoomNumber}`} - {`${remaining} Slots Left`}</option>)
-                        }
-                    })}
-                </select>
+                </div> */}
                 <div>
                     <input value="Male" type="radio" name="gender" checked={gender === "Male"} onChange={handleGender} required />
                     <label>Male</label>
@@ -341,12 +325,12 @@ function Tenants(){
                         <td>{tenant.PhoneNumber} </td>
                         <td>{tenant.FirstName} </td>
                         <td>{tenant.LastName} </td>
-                        <td>{tenant.EntryDate} </td>
-                        <td>{tenant.RoomNumber} </td>
+                        <td>{tenant.EntryDate || "NA"} </td>
+                        <td>{tenant.RoomNumber || "NA"} </td>
                         <td>{tenant.Gender} </td>
-                        {myRooms.map((room, index)=> {if(room.RoomNumber === tenant.RoomNumber){
+                        {tenant.RoomNumber ? myRooms.map((room, index)=> {if(room.RoomNumber === tenant.RoomNumber){
                             return <td key={index} >{room.MonthlyCharges} </td>
-                        }})}                   
+                        }}) : <td>{"NA"} </td> }                   
                         <td><button onClick={()=> handleEditTenant(tenantIndex)} className={styles.editButton} >Edit</button> </td>
                         <td><button onClick={()=>deleteCustomer(tenant.id)} className={styles.deleteButton} >Delete</button></td>
                     </tr>)}

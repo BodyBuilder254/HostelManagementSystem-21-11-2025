@@ -77,3 +77,494 @@
   color: #666;
 }
 
+/* ============ RESPONSIVE MEDIA QUERIES ============ */
+
+/* Small devices (phones, 320px to 575px) */
+@media (max-width: 575px) {
+    .home {
+        padding: 20px 15px;
+    }
+    
+    .hero {
+        margin-bottom: 30px;
+        padding: 0 10px;
+    }
+    
+    .title {
+        font-size: 1.8rem; /* Much smaller heading for mobile */
+        line-height: 1.3;
+        margin-bottom: 15px;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        padding: 0 10px;
+    }
+    
+    .cta {
+        font-size: 1.1rem;
+        padding: 14px 30px;
+        width: 100%; /* Full width button on mobile */
+        max-width: 280px;
+    }
+    
+    .features {
+        gap: 15px;
+        flex-direction: column; /* Stack cards vertically on mobile */
+        align-items: center;
+    }
+    
+    .card {
+        width: 100%; /* Full width cards on mobile */
+        max-width: 300px;
+        padding: 20px 15px;
+    }
+    
+    .card h2 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+    
+    .card p {
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+}
+
+/* Medium devices (tablets, 576px to 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+    .home {
+        padding: 30px 20px;
+    }
+    
+    .hero {
+        max-width: 600px;
+        margin-bottom: 35px;
+    }
+    
+    .title {
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+    
+    .subtitle {
+        font-size: 1.05rem;
+        margin-bottom: 25px;
+    }
+    
+    .cta {
+        font-size: 1.1rem;
+        padding: 14px 35px;
+    }
+    
+    .features {
+        gap: 20px;
+        flex-wrap: wrap; /* Allow cards to wrap on tablets */
+        justify-content: center;
+    }
+    
+    .card {
+        width: calc(50% - 10px); /* 2 cards per row on tablets */
+        max-width: 280px;
+        min-width: 250px;
+    }
+    
+    .card h2 {
+        font-size: 1.5rem;
+    }
+    
+    .card p {
+        font-size: 1rem;
+    }
+}
+
+/* Large devices (small laptops, 768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .home {
+        padding: 35px 25px;
+    }
+    
+    .hero {
+        max-width: 650px;
+        margin-bottom: 40px;
+    }
+    
+    .title {
+        font-size: 2.2rem;
+    }
+    
+    .subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .cta {
+        font-size: 1.1rem;
+        padding: 15px 40px;
+    }
+    
+    .features {
+        gap: 25px;
+    }
+    
+    .card {
+        width: calc(33.333% - 17px); /* 3 cards per row */
+        max-width: 300px;
+        min-width: 220px;
+    }
+}
+
+/* Extra large devices (laptops/desktops, 992px and up) */
+@media (min-width: 992px) {
+    .home {
+        padding: 50px 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .hero {
+        max-width: 800px;
+        margin-bottom: 50px;
+    }
+    
+    .title {
+        font-size: 2.8rem;
+    }
+    
+    .subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .cta {
+        font-size: 1.2rem;
+        padding: 16px 45px;
+    }
+    
+    .features {
+        max-width: 1100px;
+        gap: 30px;
+    }
+    
+    .card {
+        width: calc(33.333% - 20px); /* 3 cards per row */
+        max-width: 320px;
+        padding: 25px 20px;
+    }
+    
+    .card h2 {
+        font-size: 1.6rem;
+    }
+    
+    .card p {
+        font-size: 1.05rem;
+    }
+}
+
+/* Very large screens (1200px and up) */
+@media (min-width: 1200px) {
+    .home {
+        max-width: 1400px;
+        padding: 60px 40px;
+    }
+    
+    .hero {
+        max-width: 900px;
+    }
+    
+    .title {
+        font-size: 3rem;
+    }
+    
+    .subtitle {
+        font-size: 1.3rem;
+    }
+    
+    .features {
+        max-width: 1300px;
+        gap: 35px;
+    }
+    
+    .card {
+        max-width: 350px;
+        padding: 30px 25px;
+    }
+    
+    .card h2 {
+        font-size: 1.8rem;
+    }
+    
+    .card p {
+        font-size: 1.1rem;
+    }
+}
+
+/* ============ LANDSCAPE ORIENTATION SUPPORT ============ */
+
+/* Landscape phones */
+@media (max-width: 767px) and (orientation: landscape) {
+    .home {
+        padding: 15px;
+    }
+    
+    .hero {
+        margin-bottom: 20px;
+    }
+    
+    .title {
+        font-size: 1.6rem;
+        margin-bottom: 10px;
+    }
+    
+    .subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+    }
+    
+    .features {
+        flex-direction: row; /* Keep cards side by side in landscape */
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .card {
+        width: calc(50% - 8px); /* 2 cards per row in landscape */
+        min-width: 200px;
+        padding: 15px 10px;
+    }
+    
+    .card h2 {
+        font-size: 1.2rem;
+    }
+    
+    .card p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Landscape tablets */
+@media (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
+    .features {
+        gap: 20px;
+    }
+    
+    .card {
+        width: calc(33.333% - 14px); /* 3 cards per row in landscape */
+    }
+}
+
+/* ============ DARK MODE SUPPORT ============ */
+@media (prefers-color-scheme: dark) {
+    .home {
+        background-color: #121212;
+        color: #f0f0f0;
+    }
+    
+    .title {
+        color: #ffffff;
+    }
+    
+    .subtitle {
+        color: #cccccc;
+    }
+    
+    .cta {
+        background-color: #2563eb; /* Brighter blue for dark mode */
+        color: white;
+    }
+    
+    .cta:hover {
+        background-color: #1d4ed8;
+    }
+    
+    .card {
+        background: #1e1e1e;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .card:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    }
+    
+    .card h2 {
+        color: #ffffff;
+    }
+    
+    .card p {
+        color: #b0b0b0;
+    }
+}
+
+/* ============ HIGH CONTRAST MODE ============ */
+@media (prefers-contrast: high) {
+    .title {
+        color: #000;
+    }
+    
+    .subtitle {
+        color: #333;
+    }
+    
+    .cta {
+        background-color: #0044cc;
+        border: 2px solid #000;
+    }
+    
+    .card {
+        border: 2px solid #000;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card h2 {
+        color: #000;
+    }
+    
+    .card p {
+        color: #222;
+    }
+}
+
+/* ============ ACCESSIBILITY (Reduced motion) ============ */
+@media (prefers-reduced-motion: reduce) {
+    .cta,
+    .card {
+        transition: none;
+    }
+    
+    .card:hover {
+        transform: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* ============ TOUCH DEVICE OPTIMIZATIONS ============ */
+@media (hover: none) and (pointer: coarse) {
+    .cta {
+        padding: 16px 35px; /* Larger touch target */
+    }
+    
+    .card {
+        padding: 22px; /* Larger touch area for cards */
+    }
+    
+    /* Remove hover effects for touch devices */
+    .cta:hover,
+    .card:hover {
+        transform: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* ============ PRINT STYLES ============ */
+@media print {
+    .home {
+        padding: 20px;
+        background: white;
+        color: black;
+    }
+    
+    .hero {
+        margin-bottom: 30px;
+    }
+    
+    .title {
+        color: #000;
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        color: #333;
+    }
+    
+    .cta {
+        display: none; /* Hide button when printing */
+    }
+    
+    .features {
+        break-inside: avoid; /* Keep cards together when printing */
+    }
+    
+    .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        break-inside: avoid;
+    }
+    
+    .card h2 {
+        color: #000;
+    }
+    
+    .card p {
+        color: #333;
+    }
+}
+
+/* ============ LOADING STATE FOR FUTURE USE ============ */
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    text-align: center;
+}
+
+.loadingSpinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ============ EMPTY STATE FOR FUTURE USE ============ */
+.emptyState {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+}
+
+.emptyState h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.emptyState p {
+    margin-bottom: 20px;
+}
+
+/* ============ ERROR STATE FOR FUTURE USE ============ */
+.errorState {
+    text-align: center;
+    padding: 40px 20px;
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    margin: 20px;
+}
+
+.errorState h2 {
+    margin-bottom: 10px;
+}
+
+.errorState button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.errorState button:hover {
+    background-color: #c82333;
+}

@@ -1,16 +1,89 @@
-.myDiv{
+/* ============ DEFAULT DESKTOP STYLES ============ */
+.myDiv {
     display: flex;
     align-items: center;
     justify-content: space-around;
     font-size: 2rem;
     background-color: blue;
     padding: 20px;
-} 
-.myDiv a{
+}
+
+.myDiv a {
     color: #fff;
     text-decoration: none;
     transition: 0.5s ease;
 }
-.myDiv a:hover{
+
+.myDiv a:hover {
     text-decoration: underline;
 }
+
+/* ============ MENU TOGGLE BUTTON ============ */
+.menuToggle {
+    display: none;
+    background: none;
+    border: none;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1001;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.menuIcon {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background-color: blue;
+    margin: 6px 0;
+    transition: 0.3s;
+}
+
+/* ============ MOBILE STYLES ============ */
+@media (max-width: 575px) {
+    .menuToggle {
+        display: block;
+    }
+    
+    .myDiv {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: blue;
+        z-index: 1000;
+        padding-top: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .navOpen {
+        display: flex !important;
+    }
+    
+    .myDiv a {
+        width: 80%;
+        padding: 15px;
+        margin: 10px 0;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+    }
+}
+
+/* ============ TABLET STYLES ============ */
+@media (min-width: 576px) and (max-width: 767px) {
+    .myDiv {
+        font-size: 1.5rem;
+        padding: 15px;
+    }
+    
+    .myDiv a {
+        padding: 10px 15px;
+    }
+}
+
+/* ============ DESKTOP STYLES ARE DEFAULT ============ */

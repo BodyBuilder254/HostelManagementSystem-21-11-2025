@@ -4,7 +4,12 @@ import Tenants from "../Tenants/Tenants.jsx";
 
 import {Link} from "react-router-dom";
 
+import { useEffect } from "react";
+
 function Home() {
+  useEffect(()=>{
+    document.title = "HomePage";
+  }, []);
   return (
     <div className={styles.home}>
       <div className={styles.hero}>
