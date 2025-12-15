@@ -2,7 +2,8 @@
 import styles from "./Home.module.css";
 import Tenants from "../Tenants/Tenants.jsx";
 
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {auth} from "../Config/Firebase.js";
 
 import { useEffect } from "react";
 
@@ -10,6 +11,10 @@ function Home() {
   useEffect(()=>{
     document.title = "HomePage";
   }, []);
+
+  const navigate = useNavigate();
+  const user = auth.currentUser;
+  
   return (
     <div className={styles.home}>
       <div className={styles.hero}>

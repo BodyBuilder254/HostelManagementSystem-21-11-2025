@@ -5,7 +5,7 @@ import styles from "./Tenants.module.css";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-import { database } from "../Config/Firebase.js";
+import { auth, database } from "../Config/Firebase.js";
 import {collection, getDocs, doc, addDoc, updateDoc, deleteDoc} from "firebase/firestore";
 
 function Tenants(){
@@ -48,8 +48,8 @@ function Tenants(){
 
     async function fetchRooms(){
         try{
-            const querySnapshot = getDocs(roomsCollection);
-            const roomsData = (await querySnapshot).docs.map(doc => ({id: doc.id, ...doc.data()}));
+            const querySnapshot = await getDocs(roomsCollection);
+            const roomsData = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
             setMyRooms(roomsData);
         }catch(error){
             console.error(error);
@@ -99,7 +99,7 @@ function Tenants(){
         else{
             const newCustomer = {
                 IDNumber: idNumber, PhoneNumber: phoneNumber ,FirstName: firstName, LastName: lastName,
-                EntryDate: (new Date().toISOString().split("T")[0]), Gender: gender, Status: "Away",
+                Gender: gender, Status: "Away",
             }
 
             try{
@@ -126,7 +126,9 @@ function Tenants(){
                     }
                     else{
                         // Add Document to Firestore
-                        await addDoc(tenantsCollection, newCustomer);
+                        await addDoc(tenantsCollection, {...newCustomer, EntryDate: (new Date().toISOString().split("T")[0]), 
+                            userId: auth.currentUser.uid
+                        });
                         await fetchTenants();
 
                         window.alert("Tenant added successfully!")

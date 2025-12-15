@@ -1,0 +1,322 @@
+/* Base styles for all screen sizes */
+.myDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+    padding: 20px;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.myForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.myForm input {
+    font-size: 16px;
+    border: 1px solid #ccc;
+    padding: 12px 15px;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.myForm input:focus {
+    outline: none;
+    border-color: blueviolet;
+    box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.1);
+}
+
+.myDiv h2 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.myDiv p {
+    color: #666;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.myDiv button {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #4285f4; /* Blue color */
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+.myForm button {
+    background-color: blueviolet;
+}
+
+.myDiv button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.myDiv button:active {
+    transform: translateY(0);
+}
+
+/* Alternative button styling for secondary actions */
+.myDiv button:nth-child(3),
+.myDiv button:nth-of-type(2):not(.myForm button) {
+    background-color: #f44336; /* Red color */
+    color: #fff;
+}
+
+.myDiv button:nth-child(3):hover,
+.myDiv button:nth-of-type(2):not(.myForm button):hover {
+    background-color: #d32f2f;
+}
+
+/* Error message styling (if you add error display) */
+.errorMessage {
+    color: #d32f2f;
+    background-color: #ffebee;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ffcdd2;
+    text-align: center;
+    font-size: 0.9rem;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+/* Success message styling (if you add success display) */
+.successMessage {
+    color: #2e7d32;
+    background-color: #e8f5e9;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #c8e6c9;
+    text-align: center;
+    font-size: 0.9rem;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+/* ========== MEDIA QUERIES ========== */
+
+/* Medium devices (tablets, 768px and up) */
+@media screen and (min-width: 768px) {
+    .myDiv {
+        padding: 40px;
+    }
+    
+    .myForm {
+        max-width: 450px;
+    }
+    
+    .myForm input {
+        font-size: 17px;
+        padding: 14px 18px;
+    }
+    
+    .myDiv h2 {
+        font-size: 2rem;
+    }
+    
+    .myDiv button {
+        font-size: 1.1rem;
+        padding: 14px 24px;
+    }
+    
+    .errorMessage,
+    .successMessage {
+        max-width: 450px;
+        font-size: 1rem;
+    }
+}
+
+/* Large devices (desktops, 1024px and up) */
+@media screen and (min-width: 1024px) {
+    .myDiv {
+        padding: 50px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .myForm {
+        max-width: 500px;
+        gap: 25px;
+    }
+    
+    .myForm input {
+        font-size: 18px;
+        padding: 16px 20px;
+    }
+    
+    .myDiv h2 {
+        font-size: 2.2rem;
+    }
+    
+    .myDiv p {
+        font-size: 1.1rem;
+    }
+    
+    .myDiv button {
+        font-size: 1.2rem;
+        padding: 16px 28px;
+    }
+    
+    .errorMessage,
+    .successMessage {
+        max-width: 500px;
+        padding: 12px;
+    }
+}
+
+/* Extra small devices (phones, less than 576px) */
+@media screen and (max-width: 575px) {
+    .myDiv {
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    .myForm {
+        gap: 15px;
+    }
+    
+    .myForm input {
+        font-size: 15px;
+        padding: 10px 12px;
+    }
+    
+    .myDiv h2 {
+        font-size: 1.5rem;
+    }
+    
+    .myDiv p {
+        font-size: 0.9rem;
+    }
+    
+    .myDiv button {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+    }
+    
+    .errorMessage,
+    .successMessage {
+        font-size: 0.85rem;
+        padding: 8px;
+    }
+}
+
+/* Very small devices (phones, less than 400px) */
+@media screen and (max-width: 400px) {
+    .myDiv {
+        padding: 10px;
+        gap: 12px;
+    }
+    
+    .myForm {
+        gap: 12px;
+    }
+    
+    .myForm input {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+    
+    .myDiv h2 {
+        font-size: 1.3rem;
+    }
+    
+    .myDiv p {
+        font-size: 0.85rem;
+    }
+    
+    .myDiv button {
+        font-size: 0.85rem;
+        padding: 8px 14px;
+    }
+    
+    .errorMessage,
+    .successMessage {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+}
+
+/* For landscape orientation on mobile devices */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+    .myDiv {
+        min-height: auto;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    
+    .myForm {
+        max-width: 400px;
+        gap: 12px;
+    }
+    
+    .myForm input {
+        padding: 8px 12px;
+    }
+    
+    .myDiv button {
+        padding: 10px 16px;
+    }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+    .myDiv {
+        background-color: #121212;
+    }
+    
+    .myDiv h2 {
+        color: #e0e0e0;
+    }
+    
+    .myDiv p {
+        color: #b0b0b0;
+    }
+    
+    .myForm input {
+        background-color: #1e1e1e;
+        border-color: #444;
+        color: #e0e0e0;
+    }
+    
+    .myForm input:focus {
+        border-color: #bb86fc;
+        box-shadow: 0 0 0 2px rgba(187, 134, 252, 0.1);
+    }
+    
+    .myDiv button {
+        background-color: #3700b3;
+    }
+    
+    .myForm button {
+        background-color: #6200ee;
+    }
+    
+    .myDiv button:nth-child(3),
+    .myDiv button:nth-of-type(2):not(.myForm button) {
+        background-color: #cf6679;
+    }
+}
